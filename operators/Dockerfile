@@ -5,7 +5,10 @@ FROM golang:1.11 as builder
 WORKDIR /go/src/github.com/elastic/cloud-on-k8s/operators
 COPY pkg/    pkg/
 COPY cmd/    cmd/
-COPY vendor/ vendor/
+COPY Gopkg.toml Gopkg.toml
+COPY Gopkg.lock Gopkg.lock
+
+RUN go get -u github.com/golang/dep/cmd/dep && dep ensure --vendor-only -v
 
 ARG GO_LDFLAGS
 ARG GO_TAGS
